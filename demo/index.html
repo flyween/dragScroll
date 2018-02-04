@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style lang="css/text">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-left: 20px;
+            margin-top: 20px;
+            width: 500px;
+            height: 500px;
+            background: #efefef;
+            overflow: auto;
+        }
+        .content {
+            width: 1000px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="content">
+                asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的asda的
+        </div>
+    </div>
+    <script src="./index.js"></script>
+    <script>
+        window.onload = function(){
+            var con = document.querySelector('.container');
+            var enable = false;
+            var startX = 0,diffX = 0,scrollPos = 0;
+            var conLeft = con.getBoundingClientRect().left;
+            var hoverTime = 0;
+            var disX = 0;
+            var anchorX = 0;
+            var startTime = 0;
+
+            var move = function(){
+                con.scrollLeft = scrollPos - diffX;
+            };
+
+            var scrollAnimate = function(){
+                var intialSpeed = disX / hoverTime * 50;
+
+                var _run = function(){
+                    if(Math.floor(intialSpeed) !== 0){
+                        con.scrollLeft = con.scrollLeft - intialSpeed;
+                        intialSpeed = intialSpeed * 0.8;
+                    }else{
+                        return
+                    }
+                    window.requestAnimationFrame(_run);
+                }
+                _run();
+            };
+
+            var leaveCon = function(e){
+                if(!enable){
+                    return
+                }
+                hoverTime = new Date().getTime() - startTime;
+                disX = e.offsetX - conLeft - anchorX;
+                scrollAnimate();
+            };
+            
+            con.addEventListener('mousedown', function(e){
+                enable = true;
+                anchorX = e.offsetX - conLeft;
+                startX = e.offsetX - conLeft;
+                scrollPos = con.scrollLeft;
+                startTime = new Date().getTime();
+            });
+
+            con.addEventListener('mousemove', function(e){
+                diffX = e.offsetX - conLeft - startX;
+                enable ? move() : '';
+                startX = e.offsetX - conLeft;
+                scrollPos = con.scrollLeft;
+            });
+
+            con.addEventListener('mouseleave', function(e){
+                leaveCon(e);
+                enable = false;
+            });
+
+            con.addEventListener('mouseup', function(e){
+                leaveCon(e);
+                enable = false;
+            });
+        };
+    </script>
+</body>
+</html>
