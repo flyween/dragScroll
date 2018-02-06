@@ -34,7 +34,7 @@
         var _run = function(){
             if(Math.floor(intialSpeed) !== 0){
                 that.ele.scrollLeft = that.ele.scrollLeft - intialSpeed;
-                intialSpeed = intialSpeed * 0.8 * this.decayTime;
+                intialSpeed = intialSpeed * 0.8 * that.decayTime;
             }else{
                 return
             }
